@@ -1,0 +1,54 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<!-- <link rel="import" href="bower_components/iron-icons/iron-icons.html"> -->
+<!-- <link rel="import" href="icon-toggle.html"> -->
+
+
+<dom-module id="icon-toggle-demo">
+  <template>
+    <style>
+      :host {
+        --icon-toggle-color: lightgrey;
+        --icon-toggle-outline-color: black;
+        --icon-toggle-pressed-color: red;        
+        font-family: sans-serif;
+      };
+    </style>
+  
+   <!--  <h3>Statically-configured icon-toggles</h3>
+    
+    <icon-toggle toggle-icon="star"></icon-toggle>
+    <icon-toggle toggle-icon="star" pressed></icon-toggle>
+    
+    <h3>Data-bound icon-toggle</h3> -->
+    <h3>
+      Ratul here.
+    </h3>
+
+     <div>If data binding works, you can see one more sentence below.</div>
+
+    <h3><span>[[message(isFav)]]</span></h3>
+   <!--  <icon-toggle toggle-icon="favorite" pressed="{{isFav}}"></icon-toggle> -->
+
+    
+  </template>
+  
+  <script>
+    Polymer({
+      is: "icon-toggle-demo",
+      properties: {
+        isFav: {
+          type: Boolean,
+          value: true
+        }
+      },
+      message: function(fav) {
+        if (fav) {
+          // /debugger;
+          return "Data Binding Works";
+        } else {
+          return "Data Binding Does not work.";
+        }
+      }
+    });
+  </script>
+</dom-module>
