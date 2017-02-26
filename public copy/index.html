@@ -15,9 +15,8 @@
     <link rel="import" href="./icon-toggle-test.html">
   </head>
   <body>
-    <h2>Hi !!!</h2>
-      <div>Please find my details below</div><br/>
-    
+    <h2>Hi #!!!</h2>
+      <div>If everything Works fine, you can see my name below loaded from a custom component through iron-ajax.</div>
     <icon-toggle-test></icon-toggle-test>
     <script type="text/javascript">
 
@@ -26,9 +25,10 @@
     // imports are loaded and elements have been registered
     //alert('Components are ready');
   });
-     window.addEventListener('error', function(e) {
-    alert("error")
-  });
+     window.addEventListener("error", function(){
+      alert("error")
+     })
+     //alert("Hi")
     </script>
     
   </body>

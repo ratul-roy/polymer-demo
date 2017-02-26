@@ -1,0 +1,131 @@
+<!-- <link rel='import' href='../bower_components/polymer/polymer.html'> -->
+<link rel='import' href='./bower_components/iron-ajax/iron-ajax.html'>
+
+<dom-module id='test-ajax'>
+
+	<template>
+		<iron-ajax
+				url='[[url]]'
+
+				id='[[id]]'
+				method='[[method]]'
+				params='[[params]]'
+				body='[[body]]'
+
+				on-response="onResponse"
+				on-error="onError"
+				content-type='application/json'
+				handle-as='json'
+				headers="[[headers]]"
+				
+		>
+		</iron-ajax>
+		
+	</template>
+
+	<script>
+
+		Polymer({
+			is: 'test-ajax',
+		
+			properties: {
+				url: {
+					type: String
+				},
+				auto: {
+					type: Boolean,
+					value: false
+				},
+				// canIntercept: {
+				// 	type: Boolean,
+				// 	value: true
+				// },
+				//IMPORTANT: COULD BE 2 way data binding. But by design, stopped it by sending data through async function
+				lastResponse: {
+					type: Object
+					//notify: true
+				},
+				lastError: {
+					type: Object,
+					//notify: true
+				},
+				id: {
+					type: String
+				},
+				method: {
+					type: String
+				},
+				params: {
+					type: Object
+				},
+				body: {
+					type: Object
+				},
+				headers: {
+					type: Object
+				}
+			},
+			generateRequest: function () {
+				//debugger;
+				//this.lastResponse = this.$$("iron-ajax").lastResponse;
+				//if(window.navigator.onLine){
+					this.$$("iron-ajax").generateRequest();
+				//}
+			},
+			onResponse: function (e) {
+				
+				var response = this.$$("iron-ajax").lastResponse;
+
+				//intercept and send application errors which are 200OK to error handler
+				if (response && response.error) {
+					// if (response.error.code === 'NO_LOGIN' && this.canIntercept) {
+					// 	this.fire("no-login-found");
+					// }
+					//debugger;
+					this.handleError(response.error, function(errorObject){
+						//debugger;
+						this.fire('ajax-error', errorObject);
+					});
+
+					
+				}
+				else {
+					this.fire('ajax-response', response);
+				}
+			},
+			onError: function (e, error) {
+				//debugger;
+				var serviceError = {
+					status: 500, 
+					code: 'internal server error', 
+					message: "Currently unable to fetch details.Try again.",
+					title: 'We are sorry.',
+					config: {
+						severity: 1,
+						nextAction: 'RELOAD',
+					}
+				};
+				
+			},
+			ready: function () {
+				//debugger;
+				//alert(2);
+				function rxReadCookie(cName) {
+					var rslt = new RegExp(cName + "=([^;]+)\\;?", "i").exec(document.cookie ? unescape(document.cookie) : "");
+					return rslt ? rslt[1] : "";
+				}
+
+				var token = rxReadCookie("XSRF-TOKEN");
+				var headers = {
+					"X-Requested-With": "XMLHttpRequest"
+				};
+				if (this.method && (this.method.toLowerCase() === "post")) {
+					headers["csrf-token"] = token;
+				}
+				this.headers = headers;
+				this.generateRequest();
+			}
+		});
+	</script>
+
+</dom-module>

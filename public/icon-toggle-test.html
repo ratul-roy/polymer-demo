@@ -14,14 +14,21 @@
       };
     </style>
   
-   <!-- <test-ajax id='testAajax' url="data.json" on-ajax-response="successCB" on-ajax-error="failCB"></test-ajax> -->
-    <h3>
-     Hi,  Ratul Roy here.
-    </h3>
+   <!--  <h3>Statically-configured icon-toggles</h3>
+    
+    <icon-toggle toggle-icon="star"></icon-toggle>
+    <icon-toggle toggle-icon="star" pressed></icon-toggle>
+    
+    <h3>Data-bound icon-toggle</h3> -->
+    <test-ajax id='testAajax'url="data.json" on-ajax-response="successCB" on-ajax-error="failCB"></test-ajax>
+    
+      Name : <h4>[[name]]</h4>
+      Age  : <h4>[[age]]</h4>
+      E-mail  : <h4>[[email]]</h4>
 
-     <div>If data binding works, you can see one more sentence below.</div>
+    <!--  <div>If data binding works, you can see one more sentence below.</div>
 
-    <h3><span>[[message(isFav)]]</span></h3>
+    <h3><span>[[message(isFav)]]</span></h3> -->
    <!--  <icon-toggle toggle-icon="favorite" pressed="{{isFav}}"></icon-toggle> -->
 
     
@@ -34,20 +41,29 @@
         isFav: {
           type: Boolean,
           value: true
+        },
+        name: {
+          type: String,
+          value: ""
         }
       },
       message: function(fav) {
         if (fav) {
-          // /debugger;
+          //debugger;
+          //this.$.testAajax.generateRequest();
           return "Data Binding Works";
+
         } else {
           return "Data Binding Does not work.";
         }
       },
       successCB: function(e){
-        alert("success")
+        //alert("success")
         //alert("data received through ajax: " + JSON.stringify(e.detail.data))
-        //this.name = e.detail.data.name;
+        //debugger;
+        this.name = e.detail.data.name;
+        this.age = e.detail.data.age;
+        this.email = e.detail.data.email;
         //debugger;
       },
       failCB: function(){

@@ -1,7 +1,7 @@
 <link rel="import" href="bower_components/polymer/polymer.html">
 <!-- <link rel="import" href="bower_components/iron-icons/iron-icons.html"> -->
 <!-- <link rel="import" href="icon-toggle.html"> -->
-<link rel="import" href="./test-ajax.html">
+<!-- <link rel="import" href="./test-ajax.html"> -->
 
 <dom-module id="icon-toggle-test">
   <template>
@@ -14,9 +14,18 @@
       };
     </style>
   
-   <!-- <test-ajax id='testAajax' url="data.json" on-ajax-response="successCB" on-ajax-error="failCB"></test-ajax> -->
+   <!--  <h3>Statically-configured icon-toggles</h3>
+    
+    <icon-toggle toggle-icon="star"></icon-toggle>
+    <icon-toggle toggle-icon="star" pressed></icon-toggle>
+    
+    <h3>Data-bound icon-toggle</h3> -->
+    <!-- <test-ajax id='testAajax'url="data.json" on-ajax-response="successCB" on-ajax-error="failCB"></test-ajax> -->
+    <h4>
+      My Name is 
+    </h4>
     <h3>
-     Hi,  Ratul Roy here.
+      [[name]]
     </h3>
 
      <div>If data binding works, you can see one more sentence below.</div>
@@ -34,12 +43,18 @@
         isFav: {
           type: Boolean,
           value: true
+        },
+        name: {
+          type: String,
+          value: ""
         }
       },
       message: function(fav) {
         if (fav) {
-          // /debugger;
+          //debugger;
+          //this.$.testAajax.generateRequest();
           return "Data Binding Works";
+
         } else {
           return "Data Binding Does not work.";
         }
@@ -47,7 +62,7 @@
       successCB: function(e){
         alert("success")
         //alert("data received through ajax: " + JSON.stringify(e.detail.data))
-        //this.name = e.detail.data.name;
+        this.name = e.detail.data.name;
         //debugger;
       },
       failCB: function(){
